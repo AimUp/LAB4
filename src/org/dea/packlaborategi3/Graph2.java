@@ -101,12 +101,7 @@ public class Graph2 {
 	}
 	
 	
-	public double erlazioenGradua(String i1, String i2){
-		double batazBesteko=0;
-		
-		
-		
-		return batazBesteko;
+	public void erlazioenGradua(){
 	}
 	
 	

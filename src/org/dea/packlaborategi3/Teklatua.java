@@ -190,14 +190,11 @@ public class Teklatua {
 			
 			System.out.println();
 			System.out.println();
-			System.out.println("Erlazioa topatu nahi den bi aktoreen izenak sartu:");
-			String[] izenak = new String[2];
-			izenak = izenakEskatu(metodoa);
 			if(metodoa==1){
-				Graph1.getGraph1(listaA.getLista()).erlazioenGradua(izenak[0], izenak[1]);
+				Graph1.getGraph1(listaA.getLista()).erlazioenGradua();
 			}
 			else{
-				Graph2.getNireGrapfoa(listaA.getLista()).erlazioenGradua(izenak[0], izenak[1]);
+				Graph2.getNireGrapfoa(listaA.getLista()).erlazioenGradua();
 			}
 		}
 		

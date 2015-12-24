@@ -1,9 +1,6 @@
 package org.dea.packlaborategi3;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Graph1 {
 
@@ -90,12 +87,61 @@ public class Graph1 {
 		return konektatuak;
 	}
 	
-	public double erlazioenGradua(String i1, String i2){
-		double batazBesteko=0;
-		
-		
-		
-		return batazBesteko;
+	
+	private double distantzia(int e, String a1, String a2){
+		double dBB = 0;
+		for(int x=0; x < e; x++){
+			double d=0;
+			boolean konektatuak = false;
+			String aztertzeko;
+			Queue<String> aztertuGabeak = new LinkedList<String>();
+			HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
+			aztertuGabeak.add(a1);
+	    	aztertuak.put(a1, true);
+	        while(!konektatuak && !aztertuGabeak.isEmpty()){
+	        	aztertzeko = aztertuGabeak.poll();
+	        	if(aztertzeko.equals(a2)){
+	        		konektatuak=true;
+	        	}
+	        	else{
+	        		d++;
+	        		ArrayList<String> listaBerria = g.get(aztertzeko);
+	        		for(String b : listaBerria){
+	        			if(!aztertuak.containsKey(b)){
+	        			aztertuGabeak.add(b);
+	                	aztertuak.put(b, true);
+	        			}
+	        		}      
+	        	}
+	        }
+	        dBB = d/2;
+		}
+		return dBB/e;
+	}
+	
+	private String randomAtera(ArrayList<String> pIK){
+		Random random = new Random();
+		String a1 = pIK.get(random.nextInt(g.size()));
+		return a1;
+	}
+	
+	public void erlazioenGradua(){
+		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
+		double error=1000;
+		int probak = 10;
+		String a1 = randomAtera(izenKeys);
+		String a2 = randomAtera(izenKeys);
+		double aurrekoa = distantzia(probak,a1,a2);
+		double d = 0;
+		while(error>1){
+			a1 = randomAtera(izenKeys);
+			a2 = randomAtera(izenKeys);
+			d = distantzia(probak,a1,a2);
+			probak=probak*2;
+			error = d - aurrekoa;
+			aurrekoa = d;
+		}
+		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + (aurrekoa+d)/2 + " da.");
 	}
 	
 	public double zentralitatea(String i1, String i2){
