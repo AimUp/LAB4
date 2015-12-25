@@ -65,6 +65,7 @@ public class Graph1 {
 	public boolean konektatuta(String a1, String a2){
 		boolean konektatuak = false;
 		String aztertzeko;
+		ArrayList<String> listaBerria;
 		Queue<String> aztertuGabeak = new LinkedList<String>();
 		HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
 		aztertuGabeak.add(a1);
@@ -75,7 +76,7 @@ public class Graph1 {
         		konektatuak=true;
         	}
         	else{
-        		ArrayList<String> listaBerria = g.get(aztertzeko);
+        		listaBerria = g.get(aztertzeko);
         		for(String b : listaBerria){
         			if(!aztertuak.containsKey(b)){
         			aztertuGabeak.add(b);
@@ -88,60 +89,85 @@ public class Graph1 {
 	}
 	
 	
-	private double distantzia(int e, String a1, String a2){
-		double dBB = 0;
-		for(int x=0; x < e; x++){
-			double d=0;
-			boolean konektatuak = false;
-			String aztertzeko;
-			Queue<String> aztertuGabeak = new LinkedList<String>();
-			HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
-			aztertuGabeak.add(a1);
-	    	aztertuak.put(a1, true);
-	        while(!konektatuak && !aztertuGabeak.isEmpty()){
-	        	aztertzeko = aztertuGabeak.poll();
-	        	if(aztertzeko.equals(a2)){
-	        		konektatuak=true;
-	        	}
-	        	else{
-	        		d++;
-	        		ArrayList<String> listaBerria = g.get(aztertzeko);
-	        		for(String b : listaBerria){
-	        			if(!aztertuak.containsKey(b)){
-	        			aztertuGabeak.add(b);
-	                	aztertuak.put(b, true);
-	        			}
-	        		}      
-	        	}
-	        }
-	        dBB = d/2;
-		}
-		return dBB/e;
-	}
-	
-	private String randomAtera(ArrayList<String> pIK){
-		Random random = new Random();
-		String a1 = pIK.get(random.nextInt(g.size()));
-		return a1;
+	private double distantzia(String a1, String a2){
+		double d=0;
+		ArrayList<String> listaBerria;
+		boolean konektatuak = false;
+		String aztertzeko = null, aurrekoa;
+		HashMap<String, String> bidea = new HashMap<String, String>();
+		Queue<String> aztertuGabeak = new LinkedList<String>();
+		HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
+		aztertuGabeak.add(a1);
+    	aztertuak.put(a1, true);
+        while(!konektatuak && !aztertuGabeak.isEmpty()){
+	       aurrekoa = aztertzeko;
+        	aztertzeko = aztertuGabeak.poll();
+	       	if(aztertzeko.equals(a2)){
+	       		konektatuak=true;
+	       		bidea.put(aztertzeko, aurrekoa);
+	       	}
+	       	else{
+	       		listaBerria = g.get(aztertzeko);
+	       		for(String b : listaBerria){
+	       			if(!aztertuak.containsKey(b)){
+	       			bidea.put(b, aztertzeko);
+        			aztertuGabeak.add(b);
+                	aztertuak.put(b, true);
+	        		}
+	        	}      
+	       	}
+        }
+	    if(!konektatuak){
+	    	d=-1;
+	    }
+	    else{
+	    	aztertzeko = bidea.get(a2);
+	    	d++;
+	    	while(!aztertzeko.equals(a1)){
+	    		d++;
+	    		aztertzeko = bidea.get(aztertzeko);
+	    	}
+	    }
+		return d;
 	}
 	
 	public void erlazioenGradua(){
+		Random random = new Random();
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
-		double error=1000;
+		String a1, a2;
 		int probak = 10;
-		String a1 = randomAtera(izenKeys);
-		String a2 = randomAtera(izenKeys);
-		double aurrekoa = distantzia(probak,a1,a2);
-		double d = 0;
-		while(error>1){
-			a1 = randomAtera(izenKeys);
-			a2 = randomAtera(izenKeys);
-			d = distantzia(probak,a1,a2);
+		double d = 0, totala = -1, error = -0.5, gehiketa = 0, probaTot = 10;
+		while(error>0.25 || error==-0.5){
+			for(int x = 0; x<probak; x++){
+				a1 = izenKeys.get(random.nextInt(g.size()));
+				a2 = izenKeys.get(random.nextInt(g.size()));
+				d = distantzia(a1,a2);
+				System.out.print(x + " ");
+				if(d==-1){
+					x--;
+				}
+				else{
+					gehiketa = gehiketa + d;
+				}
+			}
+			System.out.println("bb  " + gehiketa/probaTot);
+			if(totala == -1){
+				totala=gehiketa/probaTot;
+			}
+			else{
+				if(gehiketa/probaTot<totala){
+					error=totala-gehiketa/probaTot;
+				}
+				else{
+					error=gehiketa/probaTot-totala;
+				}
+			}
+			totala = gehiketa/probaTot;
 			probak=probak*2;
-			error = d - aurrekoa;
-			aurrekoa = d;
+			probaTot=probaTot+probak;
+			System.out.println(error);
 		}
-		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + (aurrekoa+d)/2 + " da.");
+		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
 	}
 	
 	public double zentralitatea(String i1, String i2){
