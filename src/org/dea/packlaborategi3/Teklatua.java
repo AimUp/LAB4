@@ -40,6 +40,7 @@ public class Teklatua {
 			System.out.println();
 			System.out.println();
 			System.out.println("Datuak kargatzen diren bitartean itxaron...");
+			System.out.println("");
 			while(fitxategia.hasNext()){
 				linea = fitxategia.nextLine();
 				String[] items = linea.split("\\s*###\\s*");

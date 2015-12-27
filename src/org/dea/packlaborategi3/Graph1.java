@@ -23,7 +23,10 @@ public class Graph1 {
 	public void grafoaSortu(ArrayList<Aktore> lAktoreak){
 	// Post: aktoreen zerrendatik grafoa sortzen du
 	//       Adabegiak aktoreen izenak eta pelikulen izenburuak dira 
-        
+		
+		System.out.println("GRAFOA KARGATZEN DAGO. ITXARON MESEDEZ...");
+		System.out.println("");
+		
             for(Aktore a: lAktoreak){
             	ArrayList<String> stringListaPeli = new ArrayList<String>();
             	for(Pelikula p : a.getListaP()){
@@ -39,8 +42,8 @@ public class Graph1 {
             	
             	g.put(a.getIzena(), stringListaPeli);
             } 	
-     
-            System.out.println("");
+            System.out.println("Grafoa kargatu egin da.");
+    		System.out.println("");
 	}
 	
 	public void print(){
@@ -100,7 +103,7 @@ public class Graph1 {
 		aztertuGabeak.add(a1);
     	aztertuak.put(a1, true);
         while(!konektatuak && !aztertuGabeak.isEmpty()){
-	       aurrekoa = aztertzeko;
+	    	aurrekoa = aztertzeko;
         	aztertzeko = aztertuGabeak.poll();
 	       	if(aztertzeko.equals(a2)){
 	       		konektatuak=true;
@@ -133,11 +136,13 @@ public class Graph1 {
 	
 	public void erlazioenGradua(){
 		Random random = new Random();
+		System.out.println("KALKULATZEN...");
+		System.out.println("");
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
 		String a1, a2;
 		int probak = 10;
-		double d = 0, totala = -1, error = -0.5, gehiketa = 0, probaTot = 10;
-		while(error>0.25 || error==-0.5){
+		double d = 0, totala = -1, error = -1, gehiketa = 0, probaTot = 10;
+		while(error>0.25 || error==-1){
 			for(int x = 0; x<probak; x++){
 				a1 = izenKeys.get(random.nextInt(g.size()));
 				a2 = izenKeys.get(random.nextInt(g.size()));
