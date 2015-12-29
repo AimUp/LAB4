@@ -92,8 +92,7 @@ public class Graph1 {
 	}
 	
 	
-	private double distantzia(String a1, String a2){
-		double d=0;
+	private HashMap<String, String> bidea(String a1, String a2){
 		ArrayList<String> listaBerria;
 		boolean konektatuak = false;
 		String aztertzeko = null, aurrekoa;
@@ -121,37 +120,38 @@ public class Graph1 {
 	       	}
         }
 	    if(!konektatuak){
-	    	d=-1;
+	    	bidea=null;
 	    }
-	    else{
-	    	aztertzeko = bidea.get(a2);
-	    	d++;
-	    	while(!aztertzeko.equals(a1)){
-	    		d++;
-	    		aztertzeko = bidea.get(aztertzeko);
-	    	}
-	    }
-		return d;
+		return bidea;
 	}
 	
-	public void erlazioenGradua(){
+	public void erlazioenGradua(double errorea){
 		Random random = new Random();
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
+		HashMap<String, String> bidea = null;
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
-		String a1, a2;
+		String a1, a2, aztertzeko;
 		int probak = 10;
 		double d = 0, totala = -1, error = -1, gehiketa = 0, probaTot = 10;
-		while(error>0.25 || error==-1){
+		while(error>errorea || error==-1){
 			for(int x = 0; x<probak; x++){
 				a1 = izenKeys.get(random.nextInt(g.size()));
 				a2 = izenKeys.get(random.nextInt(g.size()));
-				d = distantzia(a1,a2);
+				bidea = bidea(a1,a2);
 				System.out.print(x + " ");
-				if(d==-1){
+				if(bidea==null){
 					x--;
 				}
 				else{
+					d=0;
+					aztertzeko = bidea.get(a2);
+			    	d++;
+			    	while(!aztertzeko.equals(a1)){
+			    		d++;
+			    		aztertzeko = bidea.get(aztertzeko);
+			    	}
+			    	
 					gehiketa = gehiketa + d;
 				}
 			}
@@ -177,7 +177,7 @@ public class Graph1 {
 	
 	public void zentralitatea(){
 		String zentralitatea=null;
-		int probak = 30;
+		int probak = 50;
 		Random random = new Random();
 		
 		System.out.println("KALKULATZEN...");
@@ -185,56 +185,30 @@ public class Graph1 {
 		
 		HashMap<String, Integer> gZentral = new HashMap<String, Integer>();
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
+		HashMap<String, String> bide;
+		String a1, a2, aztertzeko;
 		
-		for(int x=0; x<probak; x++){
-
-			String a1, a2;
+		for(int x=0; x<probak;x++){
 			a1 = izenKeys.get(random.nextInt(g.size()));
 			a2 = izenKeys.get(random.nextInt(g.size()));
 			
-			ArrayList<String> listaBerria;
-			boolean konektatuak = false;
-			String aztertzeko = null, aurrekoa;
-			HashMap<String, String> bidea = new HashMap<String, String>();
-			Queue<String> aztertuGabeak = new LinkedList<String>();
-			HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
-			aztertuGabeak.add(a1);
-	    	aztertuak.put(a1, true);
-	        while(!konektatuak && !aztertuGabeak.isEmpty()){
-		    	aurrekoa = aztertzeko;
-	        	aztertzeko = aztertuGabeak.poll();
-		       	if(aztertzeko.equals(a2)){
-		       		konektatuak=true;
-		       		bidea.put(aztertzeko, aurrekoa);
-		       	}
-		       	else{
-		       		listaBerria = g.get(aztertzeko);
-		       		for(String b : listaBerria){
-		       			if(!aztertuak.containsKey(b)){
-		       			bidea.put(b, aztertzeko);
-	        			aztertuGabeak.add(b);
-	                	aztertuak.put(b, true);
-		        		}
-		        	}      
-		       	}
-	        }
-		    if(!konektatuak){
-		    	x--;
-		    }
-		    else{
-		    	aztertzeko = bidea.get(a2);
-			    gZentral.put(aztertzeko,1);
-			    while(!aztertzeko.equals(a1)){
-			    	aztertzeko = bidea.get(aztertzeko);
-			    	if(gZentral.containsKey(aztertzeko)){
-			    		gZentral.put(aztertzeko, gZentral.get(aztertzeko)+1);
-			    	}
-			    	else{
-			    		gZentral.put(aztertzeko,1);
-			    	}  	
-			   	}
-		    	
-		    }
+			bide = bidea(a1,a2);
+			if(bide==null){
+				x--;
+			}
+			else{
+				aztertzeko = bide.get(a2);
+				gZentral.put(aztertzeko,1);
+				while(!aztertzeko.equals(a1)){
+					aztertzeko = bide.get(aztertzeko);
+					if(gZentral.containsKey(aztertzeko)){
+						gZentral.put(aztertzeko, gZentral.get(aztertzeko)+1);
+					}
+					else{
+						gZentral.put(aztertzeko,1);
+					}  	
+				} 	
+			}
 		}
 		for(String s:gZentral.keySet()){
 			if(zentralitatea==null){

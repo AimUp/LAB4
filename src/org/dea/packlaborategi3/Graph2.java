@@ -147,13 +147,13 @@ public class Graph2 {
 		return d;
 	}
 	
-	public void erlazioenGradua(){
+	public void erlazioenGradua(double errorea){
 		Random random = new Random();
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
 		int probak=10, a1, a2;
 		double error=0.5, totala=-1, d=0, gehiketa=0, probaTot=10;
-		while(error>0.1 || error==-1){
+		while(error>errorea || error==-1){
 			for(int x = 0; x<probak; x++){
 				a1 = random.nextInt(th.size());
 				a2 = random.nextInt(th.size());

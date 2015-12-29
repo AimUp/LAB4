@@ -190,12 +190,20 @@ public class Teklatua {
 			int metodoa = zenbakiaSartu(1,2);
 			
 			System.out.println();
+			
+			System.out.println("Zenbateko errorearearekin topatu nahi duzu erlazioa?");
+			System.out.println("(GOMENDIOA: 0,25 edo 0,5)");
+			double errorea = sc.nextDouble();
+			
 			System.out.println();
+			System.out.println();
+			
+			
 			if(metodoa==1){
-				Graph1.getGraph1(listaA.getLista()).erlazioenGradua();
+				Graph1.getGraph1(listaA.getLista()).erlazioenGradua(errorea);
 			}
 			else{
-				Graph2.getNireGrapfoa(listaA.getLista()).erlazioenGradua();
+				Graph2.getNireGrapfoa(listaA.getLista()).erlazioenGradua(errorea);
 			}
 		}
 		
@@ -217,6 +225,4 @@ public class Teklatua {
 		besteEragiketa();
 		sc.close();
 	}
-	
-	
 }
