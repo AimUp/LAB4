@@ -185,7 +185,7 @@ public class Graph2 {
 	}
 	
 	
-	public double zentralitatea(String i1, String i2){
+	public double zentralitatea(){
 		double zentralitate=0;
 		
 		

@@ -175,11 +175,75 @@ public class Graph1 {
 		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
 	}
 	
-	public double zentralitatea(String i1, String i2){
-		double zentralitate=0;
+	public void zentralitatea(){
+		String zentralitatea=null;
+		int probak = 30;
+		Random random = new Random();
 		
+		System.out.println("KALKULATZEN...");
+		System.out.println("");
 		
+		HashMap<String, Integer> gZentral = new HashMap<String, Integer>();
+		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
 		
-		return zentralitate;
+		for(int x=0; x<probak; x++){
+
+			String a1, a2;
+			a1 = izenKeys.get(random.nextInt(g.size()));
+			a2 = izenKeys.get(random.nextInt(g.size()));
+			
+			ArrayList<String> listaBerria;
+			boolean konektatuak = false;
+			String aztertzeko = null, aurrekoa;
+			HashMap<String, String> bidea = new HashMap<String, String>();
+			Queue<String> aztertuGabeak = new LinkedList<String>();
+			HashMap<String, Boolean> aztertuak = new HashMap<String, Boolean>();
+			aztertuGabeak.add(a1);
+	    	aztertuak.put(a1, true);
+	        while(!konektatuak && !aztertuGabeak.isEmpty()){
+		    	aurrekoa = aztertzeko;
+	        	aztertzeko = aztertuGabeak.poll();
+		       	if(aztertzeko.equals(a2)){
+		       		konektatuak=true;
+		       		bidea.put(aztertzeko, aurrekoa);
+		       	}
+		       	else{
+		       		listaBerria = g.get(aztertzeko);
+		       		for(String b : listaBerria){
+		       			if(!aztertuak.containsKey(b)){
+		       			bidea.put(b, aztertzeko);
+	        			aztertuGabeak.add(b);
+	                	aztertuak.put(b, true);
+		        		}
+		        	}      
+		       	}
+	        }
+		    if(!konektatuak){
+		    	x--;
+		    }
+		    else{
+		    	aztertzeko = bidea.get(a2);
+			    gZentral.put(aztertzeko,1);
+			    while(!aztertzeko.equals(a1)){
+			    	aztertzeko = bidea.get(aztertzeko);
+			    	if(gZentral.containsKey(aztertzeko)){
+			    		gZentral.put(aztertzeko, gZentral.get(aztertzeko)+1);
+			    	}
+			    	else{
+			    		gZentral.put(aztertzeko,1);
+			    	}  	
+			   	}
+		    	
+		    }
+		}
+		for(String s:gZentral.keySet()){
+			if(zentralitatea==null){
+				zentralitatea = s;
+			}
+			else if(gZentral.get(zentralitatea)<gZentral.get(s)){
+				zentralitatea = s;
+			}
+		}
+		System.out.println(probak + " bikote ausaz hartuz " + zentralitatea + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
 	}
 }

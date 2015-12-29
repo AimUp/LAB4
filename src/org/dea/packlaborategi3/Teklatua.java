@@ -206,8 +206,12 @@ public class Teklatua {
 			
 			System.out.println();
 			System.out.println();
-			System.out.println("Aktorearen izena sartu:");
-			//EGITEKO
+			if(metodoa==1){
+				Graph1.getGraph1(listaA.getLista()).zentralitatea();
+			}
+			else{
+				Graph2.getNireGrapfoa(listaA.getLista()).zentralitatea();
+			}
 		}
 		
 		besteEragiketa();
