@@ -1,5 +1,6 @@
 package org.dea.packlaborategi3;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Graph1 {
@@ -129,7 +130,7 @@ public class Graph1 {
 		Random random = new Random();
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
-		HashMap<String, String> bidea = null;
+		HashMap<String, String> bide = null;
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
 		String a1, a2, aztertzeko;
 		int probak = 10;
@@ -138,24 +139,24 @@ public class Graph1 {
 			for(int x = 0; x<probak; x++){
 				a1 = izenKeys.get(random.nextInt(g.size()));
 				a2 = izenKeys.get(random.nextInt(g.size()));
-				bidea = bidea(a1,a2);
+				bide = bidea(a1,a2);
 				System.out.print(x + " ");
-				if(bidea==null){
+				if(bide==null){
 					x--;
 				}
 				else{
 					d=0;
-					aztertzeko = bidea.get(a2);
+					aztertzeko = bide.get(a2);
 			    	d++;
 			    	while(!aztertzeko.equals(a1)){
 			    		d++;
-			    		aztertzeko = bidea.get(aztertzeko);
+			    		aztertzeko = bide.get(aztertzeko);
 			    	}
 			    	
 					gehiketa = gehiketa + d;
 				}
+				System.out.println();
 			}
-			System.out.println("bb  " + gehiketa/probaTot);
 			if(totala == -1){
 				totala=gehiketa/probaTot;
 			}
@@ -170,14 +171,14 @@ public class Graph1 {
 			totala = gehiketa/probaTot;
 			probak=probak*2;
 			probaTot=probaTot+probak;
-			System.out.println(error);
 		}
-		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
+		String erroreFinala = new DecimalFormat("#.##").format(error);
+		System.out.println(erroreFinala + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
 	}
 	
 	public void zentralitatea(){
 		String zentralitatea=null;
-		int probak = 50;
+		int probak = 500;
 		Random random = new Random();
 		
 		System.out.println("KALKULATZEN...");
@@ -187,8 +188,13 @@ public class Graph1 {
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
 		HashMap<String, String> bide;
 		String a1, a2, aztertzeko;
-		
+		int aurrekoa=-1;
 		for(int x=0; x<probak;x++){
+			int portzentaila = (x*100) /probak;
+			if(portzentaila!=aurrekoa){	
+				progressionBar(portzentaila);
+				aurrekoa=portzentaila;
+			}
 			a1 = izenKeys.get(random.nextInt(g.size()));
 			a2 = izenKeys.get(random.nextInt(g.size()));
 			
@@ -218,6 +224,37 @@ public class Graph1 {
 				zentralitatea = s;
 			}
 		}
-		System.out.println(probak + " bikote ausaz hartuz " + zentralitatea + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
 	}
+	
+	private void progressionBar(int portzentaila){
+		if(portzentaila<10){
+			System.out.println("|          0"+portzentaila+"%          |");
+		}else if(portzentaila<20){
+			System.out.println("|==        "+portzentaila+"%          |");
+		}else if(portzentaila<30){
+			System.out.println("|====      "+portzentaila+"%          |");
+		}else if(portzentaila<40){
+			System.out.println("|======    "+portzentaila+"%          |");
+		}else if(portzentaila<50){
+			System.out.println("|========  "+portzentaila+"%          |");
+		}else if(portzentaila<60){
+			System.out.println("|=========="+portzentaila+"%          |");
+		}else if(portzentaila<70){
+			System.out.println("|=========="+portzentaila+"%==        |");
+		}else if(portzentaila<80){
+			System.out.println("|=========="+portzentaila+"%====      |");
+		}else if(portzentaila<90){
+			System.out.println("|=========="+portzentaila+"%======    |");
+		}else if(portzentaila<100){
+			System.out.println("|=========="+portzentaila+"%========  |");
+		}else if(portzentaila==100){
+			System.out.println("|==========100%=========|");
+			System.out.println("BUKATUA!");
+			System.out.println();
+		}
+	}
+	
 }
+
+

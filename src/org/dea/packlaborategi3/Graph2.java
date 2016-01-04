@@ -1,6 +1,7 @@
 package org.dea.packlaborategi3;
 
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class Graph2 {
       private HashMap<String, Integer> th;
@@ -103,8 +104,7 @@ public class Graph2 {
 		}
 		return aurkitua;
 	}
-	private double distantzia(Integer a1, Integer a2){
-		double d = 0;
+	private HashMap<Integer, Integer> bidea(Integer a1, Integer a2){
 		boolean konektatuak = false;
 		Queue<Integer> aztertuGabeak = new LinkedList<Integer>();
 		HashMap<Integer, Boolean> aztertuak = new HashMap<Integer, Boolean>();
@@ -134,34 +134,36 @@ public class Graph2 {
 	       	}
         }
 	    if(!konektatuak){
-	    	d=-1;
+	    	bidea=null;
 	    }
-	    else{
-	    	hunekoa = bidea.get(a2);
-	    	d++;
-	    	while(hunekoa != a1){
-	    		d++;
-	    		hunekoa = bidea.get(hunekoa);
-	    	}
-	    }
-		return d;
+		return bidea;
 	}
 	
 	public void erlazioenGradua(double errorea){
+		HashMap<Integer, Integer> bide;
 		Random random = new Random();
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
-		int probak=10, a1, a2;
-		double error=0.5, totala=-1, d=0, gehiketa=0, probaTot=10;
+		
+		int probak=10, a1, a2, aztertzeko;
+		double error=-1, totala=-1, d=0, gehiketa=0, probaTot=10;
 		while(error>errorea || error==-1){
 			for(int x = 0; x<probak; x++){
 				a1 = random.nextInt(th.size());
 				a2 = random.nextInt(th.size());
-				d = distantzia(a1,a2);
-				if(d==-1){
+				bide = bidea(a1,a2);
+				if(bide==null){
 					x--;
 				}
 				else{
+					d=0;
+					aztertzeko = bide.get(a2);
+			    	d++;
+			    	while(aztertzeko!=a1){
+			    		d++;
+			    		aztertzeko = bide.get(aztertzeko);
+			    	}
+			    	
 					gehiketa = gehiketa + d;
 				}
 			}
@@ -179,17 +181,54 @@ public class Graph2 {
 			totala = gehiketa/probaTot;
 			probak=probak*2;
 			probaTot=probaTot+probak;
-			System.out.println(error);
 		}
-		System.out.println(error + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
-	}
+		String erroreFinala = new DecimalFormat("#.##").format(error);
+		System.out.println(erroreFinala + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
+		
+}
 	
 	
-	public double zentralitatea(){
-		double zentralitate=0;
+	public void zentralitatea(){
+		System.out.println("KALKULATZEN...");
+		System.out.println("");
 		
+		int probak = 500;
+		String zentralitatea;
+		Random random = new Random();
+		HashMap<Integer, Integer> gZentral = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> bide;
+		Integer a1, a2, aztertzeko, zentrInt=-1;
 		
-		
-		return zentralitate;
+		for(int x=0; x<probak;x++){
+			a1 = random.nextInt(th.size());
+			a2 = random.nextInt(th.size());
+			bide = bidea(a1,a2);
+			if(bide==null){
+				x--;
+			}
+			else{
+				aztertzeko = bide.get(a2);
+				gZentral.put(aztertzeko,1);
+				while(!aztertzeko.equals(a1)){
+					aztertzeko = bide.get(aztertzeko);
+					if(gZentral.containsKey(aztertzeko)){
+						gZentral.put(aztertzeko, gZentral.get(aztertzeko)+1);
+					}
+					else{
+						gZentral.put(aztertzeko,1);
+					}  	
+				} 	
+			}
+		}
+		for(Integer i:gZentral.keySet()){
+			if(zentrInt==-1){
+				zentrInt = i;
+			}
+			else if(gZentral.get(zentrInt)<gZentral.get(i)){
+				zentrInt = i;
+			}
+		}
+		zentralitatea = keys[zentrInt];
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
 	}
 }

@@ -198,6 +198,7 @@ public class Teklatua {
 			System.out.println();
 			System.out.println();
 			
+			long startTime = System.nanoTime();
 			
 			if(metodoa==1){
 				Graph1.getGraph1(listaA.getLista()).erlazioenGradua(errorea);
@@ -205,6 +206,10 @@ public class Teklatua {
 			else{
 				Graph2.getNireGrapfoa(listaA.getLista()).erlazioenGradua(errorea);
 			}
+			
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			System.out.println("Denbora " + duration/1000000000+"seg");
 		}
 		
 		if(menuZenb == 4){
@@ -214,12 +219,17 @@ public class Teklatua {
 			
 			System.out.println();
 			System.out.println();
+			
+			long startTime = System.nanoTime();
 			if(metodoa==1){
 				Graph1.getGraph1(listaA.getLista()).zentralitatea();
 			}
 			else{
 				Graph2.getNireGrapfoa(listaA.getLista()).zentralitatea();
 			}
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			System.out.println("Denbora " + duration/1000000000+"seg");
 		}
 		
 		besteEragiketa();
