@@ -58,9 +58,9 @@ public class Graph1 {
 		}
 	}
 	
-	public boolean aktoreaBadago(String pIzen1, String pIzen2){
+	public boolean aktoreaBadago(String pIzen){
 	    boolean badago = false;
-	    if(g.containsKey(pIzen1) && g.containsKey(pIzen2)){
+	    if(g.containsKey(pIzen)){
 	   		badago = true;
 	   	}
 	   	return badago;
@@ -176,11 +176,8 @@ public class Graph1 {
 		System.out.println(erroreFinala + "-eko errorearekin lortutako erlazio gradua " + totala + " da.");
 	}
 	
-	public void zentralitatea(){
-		String zentralitatea=null;
-		int probak = 500;
+	public HashMap<String, Integer> zentralitatea(int probak){
 		Random random = new Random();
-		
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
 		
@@ -188,13 +185,17 @@ public class Graph1 {
 		ArrayList<String> izenKeys = new ArrayList<String>(g.keySet());
 		HashMap<String, String> bide;
 		String a1, a2, aztertzeko;
+		
 		int aurrekoa=-1;
+		
 		for(int x=0; x<probak;x++){
+			
 			int portzentaila = (x*100) /probak;
-			if(portzentaila!=aurrekoa){	
-				progressionBar(portzentaila);
-				aurrekoa=portzentaila;
+			if(portzentaila>aurrekoa){	
+				Teklatua.getTeklatua().progressionBar(portzentaila);
+				aurrekoa=portzentaila+1;
 			}
+			
 			a1 = izenKeys.get(random.nextInt(g.size()));
 			a2 = izenKeys.get(random.nextInt(g.size()));
 			
@@ -216,6 +217,14 @@ public class Graph1 {
 				} 	
 			}
 		}
+		System.out.println("|==========100%=========|");
+		System.out.println();
+		return gZentral;
+	}
+	
+	public void zentralitaHandiena(int probak){
+		HashMap<String, Integer> gZentral = zentralitatea(probak);
+		String zentralitatea=null;
 		for(String s:gZentral.keySet()){
 			if(zentralitatea==null){
 				zentralitatea = s;
@@ -227,34 +236,16 @@ public class Graph1 {
 		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
 	}
 	
-	private void progressionBar(int portzentaila){
-		if(portzentaila<10){
-			System.out.println("|          0"+portzentaila+"%          |");
-		}else if(portzentaila<20){
-			System.out.println("|==        "+portzentaila+"%          |");
-		}else if(portzentaila<30){
-			System.out.println("|====      "+portzentaila+"%          |");
-		}else if(portzentaila<40){
-			System.out.println("|======    "+portzentaila+"%          |");
-		}else if(portzentaila<50){
-			System.out.println("|========  "+portzentaila+"%          |");
-		}else if(portzentaila<60){
-			System.out.println("|=========="+portzentaila+"%          |");
-		}else if(portzentaila<70){
-			System.out.println("|=========="+portzentaila+"%==        |");
-		}else if(portzentaila<80){
-			System.out.println("|=========="+portzentaila+"%====      |");
-		}else if(portzentaila<90){
-			System.out.println("|=========="+portzentaila+"%======    |");
-		}else if(portzentaila<100){
-			System.out.println("|=========="+portzentaila+"%========  |");
-		}else if(portzentaila==100){
-			System.out.println("|==========100%=========|");
-			System.out.println("BUKATUA!");
-			System.out.println();
+	public void zentralitateaAktore(int probak,String pIzen){
+		int kantitatea;
+		HashMap<String, Integer> gZentral = zentralitatea(probak);
+		if(gZentral.get(pIzen)==null){
+			kantitatea=0;
+		}else{
+			kantitatea=gZentral.get(pIzen);
 		}
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + pIzen + "\"" + " aktorearen zentralitatea " + kantitatea + "-koa da.");
 	}
-	
 }
 
 

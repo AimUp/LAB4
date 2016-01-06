@@ -20,9 +20,9 @@ public class Graph2 {
 	   return nireGrafoa;
    }
    
-    public boolean aktoreaBadago(String pIzen1, String pIzen2){
+    public boolean aktoreaBadago(String pIzen){
     	boolean badago = false;
-    	if(th.containsKey(pIzen1) && th.containsKey(pIzen2)){
+    	if(th.containsKey(pIzen)){
     		badago = true;
     	}
     	return badago;
@@ -188,18 +188,23 @@ public class Graph2 {
 }
 	
 	
-	public void zentralitatea(){
+	private HashMap<Integer, Integer> zentralitatea(int probak){
 		System.out.println("KALKULATZEN...");
 		System.out.println("");
 		
-		int probak = 500;
-		String zentralitatea;
 		Random random = new Random();
 		HashMap<Integer, Integer> gZentral = new HashMap<Integer, Integer>();
 		HashMap<Integer, Integer> bide;
-		Integer a1, a2, aztertzeko, zentrInt=-1;
-		
+		Integer a1, a2, aztertzeko;
+		int aurrekoa = -1;
 		for(int x=0; x<probak;x++){
+			
+			int portzentaila = (x*100) /probak;
+			if(portzentaila>aurrekoa){	
+				Teklatua.getTeklatua().progressionBar(portzentaila);
+				aurrekoa=portzentaila+1;
+			}
+			
 			a1 = random.nextInt(th.size());
 			a2 = random.nextInt(th.size());
 			bide = bidea(a1,a2);
@@ -220,6 +225,15 @@ public class Graph2 {
 				} 	
 			}
 		}
+		System.out.println("|==========100%=========|");
+		System.out.println();
+		return gZentral;
+	}
+	
+	public void zentralitaHandiena(int probak){
+		int zentrInt=-1;
+		String zentralitatea;
+		HashMap<Integer, Integer> gZentral = zentralitatea(probak);
 		for(Integer i:gZentral.keySet()){
 			if(zentrInt==-1){
 				zentrInt = i;
@@ -230,5 +244,18 @@ public class Graph2 {
 		}
 		zentralitatea = keys[zentrInt];
 		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
+	
+	}
+	
+	public void zentralitateaAktore(int probak, String pIzen){
+		HashMap<Integer, Integer> gZentral = zentralitatea(probak);
+		int kantitatea;
+		if(gZentral.get(th.get(pIzen))==null){
+			kantitatea=0;
+		}else{
+			kantitatea=gZentral.get(th.get(pIzen));
+		}
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + pIzen + "\"" + " aktorearen zentralitatea " + kantitatea + "-koa da.");
+
 	}
 }

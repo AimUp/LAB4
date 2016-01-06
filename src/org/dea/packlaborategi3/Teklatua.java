@@ -73,25 +73,48 @@ public class Teklatua {
 		
 		System.out.println("Bi aktore konektatuta dauden jakiteko bi akotoreren izenak beharko ditugu.");
 		System.out.println("Idatzi lehenengo aktorearen izena:");
-		
 		izenak[0] = sc.nextLine();
 				
 		System.out.println("Orain zartu bigarren aktorearen izena:");
-		
 		izenak[1] = sc.nextLine();
-		if(pMetodo==1){
-			if(!Graph1.getGraph1(listaA.getLista()).aktoreaBadago(izenak[0], izenak[1])){
-				System.out.println("Aktoreetako bat gutxienez ez dago datu basean, idatzi izenak berriro:");
+		
+		if(aktoreaBadago(pMetodo,izenak[0])){
+			if(!aktoreaBadago(pMetodo,izenak[1])){
+				System.out.println("Sartutako bigarren aktorea ez dago datu basean, idatzi bi izenak berriro:");
+				System.out.println();
 				izenak = izenakEskatu(pMetodo);
 			}
-		}
-		else{
-			if(!Graph2.getNireGrapfoa(listaA.getLista()).aktoreaBadago(izenak[0], izenak[1])){
-				System.out.println("Aktoreetako bat gutxienez ez dago datu basean, idatzi izenak berriro:");
-				izenak = izenakEskatu(pMetodo);
-			}
+		}else{
+			System.out.println("Sartutako lehenengo aktorea ez dago datu basean, idatzi bi izenak berriro:");
+			System.out.println();
+			izenak = izenakEskatu(pMetodo);
 		}
 		return izenak;
+	}
+	
+	private String izenBatEskatu(int pMet){
+		System.out.println();	
+		System.out.println("Sartu aktorearen izena:");	
+		String izena; 
+		sc = new Scanner(System.in);
+		izena = sc.nextLine();
+		if(!aktoreaBadago(pMet, izena)){
+			System.out.println("Izena ez da ondo sartu. Ez dago izen hau duen aktorerik.");	
+			System.out.println("Sartu aktorearen izena berriro:");	
+			izenBatEskatu(pMet);
+		}
+		return izena;
+	}
+	
+	private boolean aktoreaBadago(int pMetodo, String pIzen){
+		boolean dago = false;
+		if(pMetodo==1){
+			dago=Graph1.getGraph1(listaA.getLista()).aktoreaBadago(pIzen);
+		}
+		else{
+			dago=Graph2.getNireGrapfoa(listaA.getLista()).aktoreaBadago(pIzen);
+		}
+		return dago;
 	}
 	
 	private int zenbakiaSartu(int h, int b){
@@ -139,21 +162,16 @@ public class Teklatua {
 		System.out.println("1-> Bi aktore konektatuta dauden jakin.");
 		System.out.println("2-> Grafoa imprimatu.");
 		System.out.println("3-> Bi aktoreren erlazio gradua kalkulatu.");
-		System.out.println("4-> Aktore baten zentralitatea kalkulatu.");
+		System.out.println("4-> Zentralitate altuena duena aktore/pelikula kalkulatu.");
+		System.out.println("5-> Aktore baten zentralitatea kalkulatu.");
 		
 		System.out.println("0-> Irten.");
-		menuZenb = zenbakiaSartu(0,4);
+		menuZenb = zenbakiaSartu(0,5); //Zenbat aukera dauden menuan (0-tik 5-era))
 		
 		if(menuZenb == 1){
 			System.out.println("Aukeratu erabili nahi duzun metodoa:");
 			System.out.println("(1-> Graph1; 2-> Graph2)");
 			int metodoa = zenbakiaSartu(1,2);
-			if(metodoa==1){
-				Graph1.getGraph1(listaA.getLista());
-			}
-			else{
-				Graph2.getNireGrapfoa(listaA.getLista());
-			}
 			boolean konektatuak = true;
 			String[] izenak = new String[2];
 			izenak = izenakEskatu(metodoa);
@@ -170,8 +188,7 @@ public class Teklatua {
 				System.out.println("AKTOREAK EZ DAUDE KONEKTATURIK!");
 			}
 		}
-		
-		if(menuZenb == 2){
+		else if(menuZenb == 2){
 			System.out.println("Aukeratu inprimitu nahi duzun metodoa:");
 			System.out.println("(1-> Graph1; 2-> Graph2)");
 			int metodoa = zenbakiaSartu(1,2);
@@ -183,8 +200,7 @@ public class Teklatua {
 				Graph2.getNireGrapfoa(listaA.getLista()).print();;
 			}
 		}
-		
-		if(menuZenb == 3){
+		else if(menuZenb == 3){
 			System.out.println("Aukeratu erabili nahi duzun metodoa:");
 			System.out.println("(1-> Graph1; 2-> Graph2)");
 			int metodoa = zenbakiaSartu(1,2);
@@ -211,8 +227,7 @@ public class Teklatua {
 			long duration = (endTime - startTime);
 			System.out.println("Denbora " + duration/1000000000+"seg");
 		}
-		
-		if(menuZenb == 4){
+		else if(menuZenb == 4){
 			System.out.println("Aukeratu erabili nahi duzun metodoa:");
 			System.out.println("(1-> Graph1; 2-> Graph2)");
 			int metodoa = zenbakiaSartu(1,2);
@@ -220,19 +235,74 @@ public class Teklatua {
 			System.out.println();
 			System.out.println();
 			
+			System.out.println();
+			System.out.println("Zenbat proba egin nahi dituzu?");
+			System.out.println("GOMENDIOA: 500 proba (7/10minutu inguru), 1000 proba (20 minutu inguru)");
+			int probak = zenbakiaSartu(0,Graph1.getGraph1(listaA.getLista()).g.size());
+			
 			long startTime = System.nanoTime();
 			if(metodoa==1){
-				Graph1.getGraph1(listaA.getLista()).zentralitatea();
+				Graph1.getGraph1(listaA.getLista()).zentralitaHandiena(probak);
 			}
 			else{
-				Graph2.getNireGrapfoa(listaA.getLista()).zentralitatea();
+				Graph2.getNireGrapfoa(listaA.getLista()).zentralitaHandiena(probak);
 			}
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime);
 			System.out.println("Denbora " + duration/1000000000+"seg");
 		}
-		
+		else if(menuZenb==5){
+			sc = new Scanner(System.in);
+			System.out.println("Aukeratu erabili nahi duzun metodoa:");
+			System.out.println("(1-> Graph1; 2-> Graph2)");
+			int metodoa = zenbakiaSartu(1,2);
+			
+			System.out.println();
+			String izena;
+			izena = izenBatEskatu(metodoa);
+			
+			System.out.println();
+			System.out.println("Zenbat proba egin nahi dituzu?");
+			System.out.println("GOMENDIOA: 500 proba (7/10minutu inguru), 1000 proba (20 minutu inguru)");
+			int probak = zenbakiaSartu(0,Graph1.getGraph1(listaA.getLista()).g.size());
+			
+			long startTime = System.nanoTime();
+			if(metodoa==1){
+				Graph1.getGraph1(listaA.getLista()).zentralitateaAktore(probak,izena);;
+			}
+			else{
+				Graph2.getNireGrapfoa(listaA.getLista()).zentralitateaAktore(probak,izena);
+			}
+			long endTime = System.nanoTime();
+			long duration = (endTime - startTime);
+			System.out.println("Denbora " + duration/1000000000+"seg");
+			
+		}
 		besteEragiketa();
 		sc.close();
+	}
+	
+	public void progressionBar(int portzentaila){
+		if(portzentaila<10){
+			System.out.println("|          0"+portzentaila+"%          |");
+		}else if(portzentaila<20){
+			System.out.println("|==        "+portzentaila+"%          |");
+		}else if(portzentaila<30){
+			System.out.println("|====      "+portzentaila+"%          |");
+		}else if(portzentaila<40){
+			System.out.println("|======    "+portzentaila+"%          |");
+		}else if(portzentaila<50){
+			System.out.println("|========  "+portzentaila+"%          |");
+		}else if(portzentaila<60){
+			System.out.println("|=========="+portzentaila+"%          |");
+		}else if(portzentaila<70){
+			System.out.println("|=========="+portzentaila+"%==        |");
+		}else if(portzentaila<80){
+			System.out.println("|=========="+portzentaila+"%====      |");
+		}else if(portzentaila<90){
+			System.out.println("|=========="+portzentaila+"%======    |");
+		}else if(portzentaila<100){
+			System.out.println("|=========="+portzentaila+"%========  |");
+		}
 	}
 }
