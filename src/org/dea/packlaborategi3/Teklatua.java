@@ -225,7 +225,7 @@ public class Teklatua {
 			
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime);
-			System.out.println("Denbora " + duration/1000000000+"seg");
+			System.out.println("Ejekuzio denbora " + duration/1000000000+"seg");
 		}
 		else if(menuZenb == 4){
 			System.out.println("Aukeratu erabili nahi duzun metodoa:");
@@ -249,7 +249,7 @@ public class Teklatua {
 			}
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime);
-			System.out.println("Denbora " + duration/1000000000+"seg");
+			System.out.println("Ejekuzio denbora " + duration/1000000000+"seg");
 		}
 		else if(menuZenb==5){
 			sc = new Scanner(System.in);
@@ -275,7 +275,7 @@ public class Teklatua {
 			}
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime);
-			System.out.println("Denbora " + duration/1000000000+"seg");
+			System.out.println("Ejekuzio denbora " + duration/1000000000+"seg");
 			
 		}
 		besteEragiketa();

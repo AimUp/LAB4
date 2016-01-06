@@ -140,7 +140,6 @@ public class Graph1 {
 				a1 = izenKeys.get(random.nextInt(g.size()));
 				a2 = izenKeys.get(random.nextInt(g.size()));
 				bide = bidea(a1,a2);
-				System.out.print(x + " ");
 				if(bide==null){
 					x--;
 				}
@@ -155,7 +154,6 @@ public class Graph1 {
 			    	
 					gehiketa = gehiketa + d;
 				}
-				System.out.println();
 			}
 			if(totala == -1){
 				totala=gehiketa/probaTot;
