@@ -30,7 +30,7 @@ public class Teklatua {
 		System.out.println("Adibidez: C://Users/XXX/Documents/handia.txt edo /Users/AIMAR/Documents/handia.txt");
 		Scanner helbidea = new Scanner(System.in);
 		itzuli = helbidea.nextLine();
-		return itzuli;	
+		return itzuli;
 	}
 	
 	public void listaKargatu(){
@@ -129,6 +129,7 @@ public class Teklatua {
 	}
 	
 	private void besteEragiketa(){
+		sc = new Scanner(System.in);
 		String letra = null;
 		sc = new Scanner(System.in);
 		
@@ -237,7 +238,7 @@ public class Teklatua {
 			
 			System.out.println();
 			System.out.println("Zenbat proba egin nahi dituzu?");
-			System.out.println("GOMENDIOA: 500 proba (7/10minutu inguru), 1000 proba (20 minutu inguru)");
+			System.out.println("GOMENDIOA: 500 proba (7/10 minutu inguru), 1000 proba (20 minutu inguru)");
 			int probak = zenbakiaSartu(0,Graph1.getGraph1(listaA.getLista()).g.size());
 			
 			long startTime = System.nanoTime();

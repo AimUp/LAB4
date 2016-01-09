@@ -255,7 +255,8 @@ public class Graph2 {
 		}else{
 			kantitatea=gZentral.get(th.get(pIzen));
 		}
-		System.out.println(probak + " bikote ausaz hartuz " + "\"" + pIzen + "\"" + " aktorearen zentralitatea " + kantitatea + "-koa da.");
+		double tot = kantitatea/probak; 
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + pIzen + "\"" + " aktorearen zentralitatea " + tot + "-koa da.");
 
 	}
 }
