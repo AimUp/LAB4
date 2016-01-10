@@ -1,4 +1,4 @@
-package org.dea.packlaborategi3;
+package org.dea.packlaborategia4;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -21,7 +21,7 @@ public class Graph1 {
 	}
 	
 
-	public void grafoaSortu(ArrayList<Aktore> lAktoreak){
+	private void grafoaSortu(ArrayList<Aktore> lAktoreak){
 	// Post: aktoreen zerrendatik grafoa sortzen du
 	//       Adabegiak aktoreen izenak eta pelikulen izenburuak dira 
 		

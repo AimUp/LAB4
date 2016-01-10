@@ -1,4 +1,4 @@
-package org.dea.packlaborategi3;
+package org.dea.packlaborategia4;
 
 import java.util.*;
 import java.io.*;
@@ -65,6 +65,10 @@ public class Teklatua {
 		catch(IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Aktore> getListaAktorea(){
+		return listaA.getLista();
 	}
 	
 	private String[] izenakEskatu(int pMetodo){
@@ -165,9 +169,10 @@ public class Teklatua {
 		System.out.println("3-> Bi aktoreren erlazio gradua kalkulatu.");
 		System.out.println("4-> Zentralitate altuena duena aktore/pelikula kalkulatu.");
 		System.out.println("5-> Aktore baten zentralitatea kalkulatu.");
+		System.out.println("6-> Probak lortu.");
 		
 		System.out.println("0-> Irten.");
-		menuZenb = zenbakiaSartu(0,5); //Zenbat aukera dauden menuan (0-tik 5-era))
+		menuZenb = zenbakiaSartu(0,6); //Zenbat aukera dauden menuan (0-tik 5-era))
 		
 		if(menuZenb == 1){
 			System.out.println("Aukeratu erabili nahi duzun metodoa:");
@@ -277,7 +282,9 @@ public class Teklatua {
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime);
 			System.out.println("Ejekuzio denbora " + duration/1000000000+"seg");
-			
+		}
+		else if(menuZenb==6){
+			Probak.getNireProbak().probak();
 		}
 		besteEragiketa();
 		sc.close();
