@@ -243,7 +243,7 @@ public class Graph2 {
 			}
 		}
 		zentralitatea = keys[zentrInt];
-		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentralitatea) + " konekziorekin.");
+		System.out.println(probak + " bikote ausaz hartuz " + "\"" + zentralitatea + "\"" + " atera da nodo zentral modura " + gZentral.get(zentrInt) + " konekziorekin.");
 	
 	}
 	

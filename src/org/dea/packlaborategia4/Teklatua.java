@@ -14,6 +14,7 @@ public class Teklatua {
 	private Teklatua(){
 		listaA = new ListaAktoreak();
 		listaP = new ListaPelikulak();
+		listaKargatu();
 		sc = new Scanner(System.in);
 	}
 	
@@ -33,7 +34,7 @@ public class Teklatua {
 		return itzuli;
 	}
 	
-	public void listaKargatu(){
+	private void listaKargatu(){
 		try{
 			Scanner fitxategia = new Scanner(new FileReader(fitxategiarenHelbidea()));
 			String linea;
@@ -169,7 +170,7 @@ public class Teklatua {
 		System.out.println("3-> Bi aktoreren erlazio gradua kalkulatu.");
 		System.out.println("4-> Zentralitate altuena duena aktore/pelikula kalkulatu.");
 		System.out.println("5-> Aktore baten zentralitatea kalkulatu.");
-		System.out.println("6-> Probak lortu.");
+		System.out.println("6-> Exekuzio-adibideak.");
 		
 		System.out.println("0-> Irten.");
 		menuZenb = zenbakiaSartu(0,6); //Zenbat aukera dauden menuan (0-tik 5-era))

@@ -187,7 +187,6 @@ public class Graph1 {
 		int aurrekoa=-1;
 		
 		for(int x=0; x<probak;x++){
-			
 			int portzentaila = (x*100) /probak;
 			if(portzentaila>aurrekoa){	
 				Teklatua.getTeklatua().progressionBar(portzentaila);
