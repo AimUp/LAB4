@@ -1,7 +1,5 @@
 package org.dea.packlaborategia4;
 
-import java.util.*;
-
 public class Probak {
 
 	private static Probak nireProbak = null;

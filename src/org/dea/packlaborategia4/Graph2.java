@@ -52,7 +52,7 @@ public class Graph2 {
 		for(String k: th.keySet()) keys[th.get(k)] = k;
 		
         // 3. pausoa: adjLista bete
-		adjList = (ArrayList<Integer>[])new ArrayList[x];
+		adjList = (ArrayList<Integer>[]) new ArrayList[x];
 		for(int i=0; i<x; i++){
 			adjList[i] = new ArrayList<Integer>();
 		}
